@@ -20,6 +20,6 @@ Example
 PGPASSWORD=***** ./pg_backup.py -h localhost /backup
 ```
 
-See also [wiki](https://wiki.enchtex.info/handmade/zabbix/zabbix_data_mining) page.
+See also [WiKi](https://wiki.enchtex.info/handmade/postgres/pg_backup).
 
 ___
