@@ -29,8 +29,8 @@ def main():
                                          add_help=False)
         parser.add_argument('path', action='store', type=str,
                             help="backup directory path")
-        parser.add_argument('-h', action='store', type=str, default="localhost", dest="host",
-                            help="database server host or socket directory (default: localhost)")
+        parser.add_argument('-h', action='store', type=str, default="", dest="host",
+                            help="database server host or socket directory (default: local socket)")
         parser.add_argument('-p', action='store', type=int, default=5432, dest="port",
                             help="database server port number (default: 5432)")
         parser.add_argument('-U', action='store', type=str, default="postgres", dest="user",
@@ -51,7 +51,7 @@ def main():
     # ------------------------------------------------------------------------------------------------------------------
     # Validate
     # ------------------------------------------------------------------------------------------------------------------
-    if not (args.host and args.path and args.user):
+    if not (args.path and args.user):
         parser.print_help()
         return False
     #
