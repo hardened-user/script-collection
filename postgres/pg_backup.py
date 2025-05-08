@@ -57,9 +57,8 @@ def main():
         return False
     #
     if args.path == ".":
-        args.path = os.path.abspath(os.path.dirname(__file__))
-    else:
-        args.path = os.path.abspath(args.path)
+        args.path = os.path.dirname(__file__)
+    args.path = os.path.abspath(args.path)
     #
     args.exclude = map(lambda x: x.strip(), args.exclude)
     args.exclude = list(filter(lambda x: x, args.exclude))
