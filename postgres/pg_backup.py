@@ -13,11 +13,11 @@ import tempfile
 import traceback
 from typing import Union
 
-_START_DT = datetime.datetime.now()
-_HOSTNAME = socket.getfqdn()
-
 _GLOBALS_NAME = "globals"
 _EXCLUDE_BASE = ["postgres", "template0", "template1"]
+
+__START_DT = datetime.datetime.now()
+__HOSTNAME = socket.getfqdn()
 
 
 def main():
@@ -25,8 +25,9 @@ def main():
     # __________________________________________________________________________
     # command-line options, arguments
     try:
-        parser = argparse.ArgumentParser(description='Backup Postgres databases with pg_dumpall, pg_dump utils.',
-                                         add_help=False)
+        parser = argparse.ArgumentParser(
+            description='Backup Postgres databases with pg_dumpall, pg_dump utils.',
+            add_help=False)
         parser.add_argument('path', action='store', type=str,
                             help="backup directory path")
         parser.add_argument('-h', action='store', type=str, default="", dest="host",
@@ -94,9 +95,9 @@ def main():
     # Start
     # ==================================================================================================================
     # WARNING: Don't use "return" in cycle
-    tmp_backup_dir = os.path.join(args.path, f"{_START_DT.strftime('%Y.%m.%d_%H%M%S')}_tmp")
-    good_backup_dir = os.path.join(args.path, f"{_START_DT.strftime('%Y.%m.%d_%H%M%S')}_good")
-    error_backup_dir = os.path.join(args.path, f"{_START_DT.strftime('%Y.%m.%d_%H%M%S')}_error")
+    tmp_backup_dir = os.path.join(args.path, f"{__START_DT.strftime('%Y.%m.%d_%H%M%S')}_tmp")
+    good_backup_dir = os.path.join(args.path, f"{__START_DT.strftime('%Y.%m.%d_%H%M%S')}_good")
+    error_backup_dir = os.path.join(args.path, f"{__START_DT.strftime('%Y.%m.%d_%H%M%S')}_error")
     if args.dry_run:
         print("[WW] DRY RUN MODE", flush=True)
     else:
@@ -393,9 +394,9 @@ def pg_dump_database(host: str, port: int, user: str, dbname: str, path: str, co
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if __name__ == '__main__':
     print("{0}\n{1} PID={2} PPID={3} HOST={4} NAME={5}\n{0}".format(
-        "-" * 100, _START_DT, os.getpid(), os.getppid(), _HOSTNAME, os.path.basename(sys.argv[0])), flush=True)
+        "-" * 100, __START_DT, os.getpid(), os.getppid(), __HOSTNAME, os.path.basename(sys.argv[0])), flush=True)
     exit_status = main()
     print("{0}\n{1} PID={2} DURATION={3} RETURN={4}\n{0}".format(
-        "-" * 100, datetime.datetime.now(), os.getpid(), datetime.datetime.now() - _START_DT, exit_status), flush=True)
+        "-" * 100, datetime.datetime.now(), os.getpid(), datetime.datetime.now() - __START_DT, exit_status), flush=True)
     # __________________________________________________________________________
     sys.exit(not exit_status)  # Compatible return code
