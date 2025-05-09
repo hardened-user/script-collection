@@ -38,8 +38,8 @@ def main():
                             help="connect as specified database user (default: postgres)")
         parser.add_argument('-e', action='append', type=str, default=list(), dest="exclude",
                             help="exclude database")
-        parser.add_argument('--compress', action='store', type=str, default="gzip:9", dest="compress",
-                            help="specify the compression method and/or the compression level (default: gzip:9)")
+        parser.add_argument('-Z', '--compress', action='store', type=str, default="", dest="compress",
+                            help="specify the compression method and/or the compression level")
         parser.add_argument('-j', action='store', type=int, default=0, dest="njobs",
                             help="use this many parallel jobs to dump (default: 0)")
         parser.add_argument('-n', '--dry-run', action='store_true',
