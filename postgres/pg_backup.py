@@ -26,7 +26,7 @@ def main():
     # command-line options, arguments
     try:
         parser = argparse.ArgumentParser(
-            description='Backup Postgres databases with pg_dumpall, pg_dump utils.',
+            description='Postgres databases backup with pg_dumpall, pg_dump utils.',
             add_help=False)
         parser.add_argument('path', action='store', type=str,
                             help="backup directory path")
