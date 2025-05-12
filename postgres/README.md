@@ -2,7 +2,7 @@
 
 ## pg_backup.py
 
-Backup Postgres databases with `pg_dumpall`, `pg_dump` utils.
+Postgres databases backup with `pg_dumpall`, `pg_dump` utils.
 
 Requirements:
 * Python >= 3.9

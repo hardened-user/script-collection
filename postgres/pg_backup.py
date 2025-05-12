@@ -311,7 +311,7 @@ def fs_md5sum_file(path: str) -> str:
 
 def fs_move(src_path: str, dst_path: str) -> bool:
     if os.path.exists(dst_path):
-        print("f[EE] Destination already exists: {}".format(dst_path), flush=True)
+        print(f"[EE] Destination already exists: {dst_path}", flush=True)
         return False
     try:
         os.replace(src_path, dst_path)
@@ -390,7 +390,7 @@ def pg_dump_database(host: str, port: int, user: str, dbname: str, path: str, co
     return True
 
 
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if __name__ == '__main__':
     print("{0}\n{1} PID={2} PPID={3} HOST={4} NAME={5}\n{0}".format(
         "-" * 100, __START_DT, os.getpid(), os.getppid(), __HOSTNAME, os.path.basename(sys.argv[0])), flush=True)
