@@ -41,3 +41,9 @@ tasks:
       - '/var/lib/docker/*'
       # source
       - '/usr/src/linux-*'
+
+  - name: "www"
+    source: "/var/www"
+    store_dir: "/mnt/backup/tar"
+    store_max: 12
+    differential: 3
