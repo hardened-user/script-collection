@@ -97,7 +97,7 @@ def main():
             except KeyError:
                 pass
             except Exception as err:
-                print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}")
+                print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}", flush=True)
                 main_return_value = False
                 continue
         # --------------------------------------------------------------------------------------------------------------
@@ -299,7 +299,7 @@ def yaml_load_file(path: str) -> Union[None, ruamel.yaml.comments.CommentedMap]:
         with open(path, 'rt', encoding='utf-8') as f:
             data = yaml.load(f)
     except Exception as err:
-        print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}")
+        print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}", flush=True)
         return None
     # __________________________________________________________________________
     if data is None:
@@ -313,7 +313,7 @@ def yaml_load_file(path: str) -> Union[None, ruamel.yaml.comments.CommentedMap]:
 # ======================================================================================================================
 def tar_standard(config: dict, dry_run: bool = False):
     print("[..] Standard archiving", flush=True)
-    print("[..] Creating FULL ...")
+    print("[..] Creating FULL ...", flush=True)
     now_dt_str = __START_DT.strftime(_DATE_TIME_FORMAT)
     arch_file_type = "full"
     arch_dst_name = f"{now_dt_str}.{config['name']}.{arch_file_type}.tar.gz"
@@ -364,7 +364,7 @@ def tar_differential(config: dict, dry_run: bool = False):
         f_list = filter(lambda x: (match := re_full.search(x)) and match.group('name') == config['name'], f_list)
         f_list = list(f_list)
     except Exception as err:
-        print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}")
+        print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}", flush=True)
         return False
     #
     last_arch_name = ""
@@ -381,13 +381,13 @@ def tar_differential(config: dict, dry_run: bool = False):
         try:
             last_arch_age = __START_DT - datetime.datetime.strptime(last_arch_dt_str, _DATE_TIME_FORMAT)
         except Exception as err:
-            print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}")
+            print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}", flush=True)
             return False
     # __________________________________________________________________________
     if last_arch_name and \
             os.path.exists(last_arch_path) and os.path.exists(last_snar_path) and \
             last_arch_age.days <= config['differential']:
-        print("[..] Creating DIFF ...")
+        print("[..] Creating DIFF ...", flush=True)
         arch_file_type = "diff"
         arch_dst_name = f"{now_dt_str}.{config['name']}.{arch_file_type}.{last_arch_dt_str}.tar.gz"
         arch_tmp_name = f"{arch_dst_name}_tmp"
@@ -407,7 +407,7 @@ def tar_differential(config: dict, dry_run: bool = False):
             return False
     # __________________________________________________________________________
     else:
-        print("[..] Creating FULL ...")
+        print("[..] Creating FULL ...", flush=True)
         arch_file_type = "full"
         arch_dst_name = f"{now_dt_str}.{config['name']}.{arch_file_type}.tar.gz"
         arch_tmp_name = f"{arch_dst_name}_tmp"
@@ -482,7 +482,7 @@ def rotate_processing(config: dict, dry_run: bool = False):
         delete_list = filter(lambda x: x.group('dt') in expired_date_list, find_list)
         delete_list = list(delete_list)
     except Exception as err:
-        print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}")
+        print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}", flush=True)
         return False
     # __________________________________________________________________________
     print(f"[..] Deleting {len(delete_list)} of {len(find_list)}", flush=True)

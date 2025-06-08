@@ -25,7 +25,7 @@ def main():
         ingress_yaml = yaml.load(stream=sys.stdin)
         items = ingress_yaml['items']
     except Exception as err:
-        print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}")
+        print(f"[!!] Exception: {type(err)}\n{''.join(traceback.format_exc(limit=1))}", flush=True)
         return False
     for item in items:
         ns = item['metadata']['namespace']
