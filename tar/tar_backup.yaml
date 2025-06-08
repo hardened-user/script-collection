@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+# ----------------------------------------------------------------------------------------------------------------------
+exclude_tag: ".tar_exclude"               # Exclude contents of directories containing FILE, except for FILE itself.
+                                          # --exclude-tag=FILE
+tasks:
+  - name: "ubuntu"                        # Name as part in the filename
+    source: "/"                           # The source archive directory
+    store_dir: "/mnt/backup/tar"          # The directory to store backups
+    store_max: 3                          # The maximum number of archives
+    differential: 0                       # Maximum days before full backup required
+    enabled: true                         # default: true
+    exclude:
+      # lost+found
+      - 'lost+found/*'
+      # system
+      - '/proc/*'
+      - '/sys/*'
+      - '/dev/*'
+      - '/run/*'
+      # temp
+      - '/tmp/*'
+      - '/var/tmp/*'
+      # cache
+      - '/var/cache/apt/*'
+      - '/var/lib/apt/*'
+      - '/var/lib/snapd/cache/*'
+      - '/var/lib/snapd/snaps/*'
+      # mount
+      - '/mnt/*'
+      - '/media/*'
+      # logs
+      - '/var/log/*.gz'
+      - '/var/log/*/*.gz'
+      - '/var/log/journal/*'
+      # apps
+      - '/var/lib/mysql/*'
+      - '/var/lib/postgresql/*'
+      - '/var/lib/nginx/*'
+      - '/var/www/*'
+      # docker
+      - '/var/lib/docker/*'
+      # source
+      - '/usr/src/linux-*'
