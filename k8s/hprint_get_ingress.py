@@ -25,7 +25,7 @@ def main():
     yaml = YAML()
     yaml.indent(mapping=2, sequence=4, offset=2)
     buffer: dict[str, dict[str, dict[str, list[str]]]] = dict()
-    ljust = {
+    cw = {  # column width per field, used for .ljust() padding
         'ns': 0,
         'name': 0,
         'host': 0,
@@ -40,42 +40,42 @@ def main():
     for item in items:
         ns = item['metadata']['namespace']
         buffer.setdefault(ns, dict())
-        if len(ns) > ljust.get('ns', 0):
-            ljust['ns'] = len(ns)
+        if len(ns) > cw.get('ns', 0):
+            cw['ns'] = len(ns)
         #
         name = item['metadata']['name']
         buffer[ns].setdefault(name, dict())
-        if len(name) > ljust.get('name', 0):
-            ljust['name'] = len(name)
+        if len(name) > cw.get('name', 0):
+            cw['name'] = len(name)
         #
         for rule in item['spec']['rules']:
             host = rule['host']
             buffer[ns][name].setdefault(host, list())
-            if len(host) > ljust.get('host', 0):
-                ljust['host'] = len(host)
+            if len(host) > cw.get('host', 0):
+                cw['host'] = len(host)
             #
             for path in rule['http']['paths']:
                 path = path.get('path', '')
                 buffer[ns][name][host].append(path)
-                if len(path) > ljust.get('path', 0):
-                    ljust['path'] = len(path)
+                if len(path) > cw.get('path', 0):
+                    cw['path'] = len(path)
     # __________________________________________________________________________
     headers = {'ns': 'NAMESPACE', 'name': 'NAME', 'host': 'HOST', 'path': 'PATH'}
-    for key in ljust:
-        ljust[key] = max(ljust[key], len(headers[key]))
+    for key in cw:
+        cw[key] = max(cw[key], len(headers[key]))
     fmt = "| {} | {} | {} | {} |"
-    print(fmt.format(*(headers[k].ljust(ljust[k]) for k in ljust)), flush=True)
-    print(fmt.format(*('-' * ljust[k] for k in ljust)), flush=True)
+    print(fmt.format(*(headers[k].ljust(cw[k]) for k in cw)), flush=True)
+    print(fmt.format(*('-' * cw[k] for k in cw)), flush=True)
     prev_ns = prev_name = prev_host = ""
     for ns in sorted(buffer):
         for name in sorted(buffer[ns]):
             for host in sorted(buffer[ns][name]):
                 for path in sorted(buffer[ns][name][host]):
                     print(fmt.format(
-                        ns.ljust(ljust['ns']) if ns != prev_ns else ' ' * ljust['ns'],
-                        name.ljust(ljust['name']) if (ns, name) != (prev_ns, prev_name) else ' ' * ljust['name'],
-                        host.ljust(ljust['host']) if (ns, name, host) != (prev_ns, prev_name, prev_host) else ' ' * ljust['host'],
-                        path.ljust(ljust['path'])))
+                        ns.ljust(cw['ns']) if ns != prev_ns else ' ' * cw['ns'],
+                        name.ljust(cw['name']) if (ns, name) != (prev_ns, prev_name) else ' ' * cw['name'],
+                        host.ljust(cw['host']) if (ns, name, host) != (prev_ns, prev_name, prev_host) else ' ' * cw['host'],
+                        path.ljust(cw['path'])))
                     prev_ns, prev_name, prev_host = ns, name, host
     # __________________________________________________________________________
     return True
